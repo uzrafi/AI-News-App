@@ -8,6 +8,7 @@ const alanKey = '38e578d1419121e302addf9b402d444f2e956eca572e1d8b807a3e2338fdd0d
 
 const App = () => {
     const [newsArticles, setNewsArticles] = useState([]);
+    const [activeArticle, setActiveArticle] = useState(-1);
     const classes = useStyles();
 
     useEffect(() => {
@@ -16,6 +17,9 @@ const App = () => {
             onCommand: ({ command, articles }) => {
                 if(command === 'newHeadlines'){
                     setNewsArticles(articles);
+                    setActiveArticle(-1);
+                } else if(command === 'highlight') {
+                    setActiveArticle((prevActiveArticle) => prevActiveArticle + 1);
                 }
             }
         })
@@ -26,7 +30,7 @@ const App = () => {
             <div className={classes.logoContainer}>
                 <img src = "https://alan.app/brand_assets/logo-horizontal/color/alan-logo-horizontal-color.png" className={classes.alanLogo} alt="alan logo"/>
             </div>
-            <NewsCards articles={newsArticles} />
+            <NewsCards articles={newsArticles} activeArticle={activeArticle} />
         </div>
     );
 }
