@@ -26,6 +26,9 @@ api.request(NEWS_API_URL, {headers: {"user-agent": 'user agent' }}, (error, resp
     
     p.play({ command: 'newHeadlines', articles });
     p.play(`Here are (latest|recent) articles (from|by) ${p.source.value} .`);
+    
+    p.play('Would you like me to read the headlines?');
+    p.then(confirmation);
 
 });
 })
