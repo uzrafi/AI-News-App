@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import alanBtn from '@alan-ai/alan-sdk-web';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { NewsCards }  from './components/NewsCards/NewsCards';
+import useStyles from './styles.js';
+
+const alanKey = '38e578d1419121e302addf9b402d444f2e956eca572e1d8b807a3e2338fdd0dc/stage';
+
+const App = () => {
+    const [newsArticles, setNewsArticles] = useState([]);
+    const classes = useStyles();
+
+    useEffect(() => {
+        alanBtn({
+            key: alanKey,
+            onCommand: ({ command, articles }) => {
+                if(command === 'newHeadlines'){
+                    setNewsArticles(articles);
+                }
+            }
+        })
+    }, [])
+
+    return (
+        <div>
+            <div className={classes.logoContainer}>
+                <img src = "https://alan.app/brand_assets/logo-horizontal/color/alan-logo-horizontal-color.png" className={classes.alanLogo} alt="alan logo"/>
+            </div>
+            <NewsCards articles={newsArticles} />
+        </div>
+    );
 }
 
 export default App;
